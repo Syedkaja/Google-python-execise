@@ -57,7 +57,15 @@ def both_ends(s):
 # where all instances of stra have been replaced by strb.
 def fix_start(s):
   # +++your code here+++
-  return
+  i = 0
+  strresult = s[0]
+  for i in range(1,len(s)):
+    if s[i] == s[0]:
+      star = '*'
+    else:
+      star = s[i]
+    strresult = strresult + star     
+  return strresult
 
 
 # D. MixUp
