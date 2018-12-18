@@ -45,6 +45,21 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
+def utility_fuction(file):
+  word_count = {}
+  f = open(file, 'r')
+  for idx, line in enumerate(f):
+    word = line.split()
+    word_count['word'] =  word
+    word_count['count'] = len(word)
+    print word_count['word'], word_count['count']
+  sys.exit(0)
+
+def print_words(file):
+  utility_fuction(file)
+
+def print_top(file):
+  utility_fuction(file)
 ###
 
 # This basic command line argument parsing code is provided and
