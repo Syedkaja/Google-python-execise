@@ -24,8 +24,8 @@ def match_ends(words):
   # +++your code here+++
   count = 0
   for word in words:
-    if len(word)>=2 and word[0]==word[len(word)-1]:
-      count += 1
+    if len(word)>=2 and word[0]==word[-1]:
+        count += 1
   return count
 
 
@@ -38,33 +38,32 @@ def match_ends(words):
 # before combining them.
 def front_x(words):
   # +++your code here+++
-  x_list = []
-  remain_list = []
+  front_x = []
+  otherwords = []
   for word in words:
     if word[0] == 'x':
-      x_list.append(word)
-      sort_x_list = sorted(x_list)
+      front_x.append(word)
+      front_x.sort()
     else:
-      remain_list.append(word)
-      sort_remain_list = sorted(remain_list)
-  result = sort_x_list + sort_remain_list
+      otherwords.append(word)
+      otherwords.sort()
+
+  result = front_x+otherwords
   return result
 
-
+def last(a):
+  return a[-1]
 
 # C. sort_last
-# Given a list of non-empty tuples, return a list sorted in increasing
+# Given a list of non-empty tuples, return a list sorted in increasing {0:7 ,1:3 ,2:5, 3:2 } = [2,3,5,7] : [3,1,2,0]
 # order by the last element in each tuple.
 # e.g. [(1, 7), (1, 3), (3, 4, 5), (2, 2)] yields
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use a custom key= function to extract the last element form each tuple.
 def sort_last(tuples):
   # +++your code here+++
-  def comparator( tuples ) :
-    return tuples[-1]
-    
-  tuples.sort(key=comparator)
-  return tuples
+  res = sorted(tuples, key=last)
+  return res
 
 
 # Simple provided test() function used in main() to print

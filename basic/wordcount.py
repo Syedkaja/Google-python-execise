@@ -45,21 +45,47 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-def utility_fuction(file):
+def wordcount(file):
+  f = open(file, 'rU')
   word_count = {}
-  f = open(file, 'r')
-  for idx, line in enumerate(f):
-    word = line.split()
-    word_count['word'] =  word
-    word_count['count'] = len(word)
-    print word_count['word'], word_count['count']
-  sys.exit(0)
 
-def print_words(file):
-  utility_fuction(file)
+  for line in f:
+    words = line.split()
+    for word in words:
+      word = word.lower()
+      if not word in word_count:
+        word_count[word] = 1
+      else:
+        word_count[word] = word_count[word] + 1
+  return word_count
+
+def topcount(file):
+  f = open(file, 'rU')
+  word_count = {}
+
+  for line in f:
+    words = line.split()
+    for word in words:
+      word = word.lower()
+      if not word in word_count:
+        word_count[word] = 1
+      else:
+        word_count[word] = word_count[word] + 1
+  return word_count
+
+def print_words(file):  
+  word_count = wordcount(file)
+  word_count = sorted(word_count.keys())
+  for key,value in word_count.items():
+    print key +' '+str(value)
+  
 
 def print_top(file):
-  utility_fuction(file)
+  top_count = topcount(file)
+  # sorted(topcount)
+  print top_count
+  # for key in top_count.keys():
+  #   print key
 ###
 
 # This basic command line argument parsing code is provided and
@@ -78,6 +104,8 @@ def main():
   else:
     print 'unknown option: ' + option
     sys.exit(1)
+
+
 
 if __name__ == '__main__':
   main()

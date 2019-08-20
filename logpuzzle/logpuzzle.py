@@ -24,7 +24,25 @@ def read_urls(filename):
   extracting the hostname from the filename itself.
   Screens out duplicate urls and returns the urls sorted into
   increasing order."""
-  # +++your code here+++
+  # +++your code here+++ [\w.-]+@[\w.-]+  alice-b@google.com
+  underbar = filename.index('_')
+  host = filename[underbar + 1:]
+
+  urllist = []
+
+  f = open(filename)
+
+  for line in f:
+      match = re.search(r'"GET (\S+)', line)
+      if match:
+          path = match.group(1)
+          if 'puzzle' in path:
+              urllist.append("http://"+host+path) 
+              # url_list = list(dict.fromkeys(url_list))
+  
+  print(url_list)
+
+  # print(sorted(urllist))
   
 
 def download_images(img_urls, dest_dir):
@@ -35,7 +53,21 @@ def download_images(img_urls, dest_dir):
   with an img tag to show each local image file.
   Creates the directory if necessary.
   """
+  if not os.path.exists(dest_dir):
+    os.mkdir(dest_dir)
+
+  f = open('index.html','w')
+  message = """<html>
+  <head></head>
+  <body><img src="" /></body>
+  </html>"""
+
+  f.write(message)
+  f.close()
   # +++your code here+++
+  for url in img_urls:
+      print(url)
+      # urllib.urlretrieve(url, dest_dir)
   
 
 def main():

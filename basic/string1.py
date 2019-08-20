@@ -25,25 +25,25 @@
 # and donuts(23) returns 'Number of donuts: many'
 def donuts(count):
   # +++your code here+++
-  if count >= 10:
-    return 'Number of donuts: many'
+  if count<10:
+    countstring = 'Number of donuts: '+str(count)
   else:
-    return 'Number of donuts: ' +str(count)
+    countstring = 'Number of donuts: many'
+  return countstring
 
 
 # B. both_ends
 # Given a string s, return a string made of the first 2
 # and the last 2 chars of the original string,
 # so 'spring' yields 'spng'. However, if the string length
-# is less than 2, return instead the empty string. +s[str(len(s)):str(len(s-1))]
+# is less than 2, return instead the empty string.
 def both_ends(s):
   # +++your code here+++
-  start = s[0:2]
-  end = s[-2:] 
-  if len(s) < 2:
-    return ''
+  if len(s)>2:
+    s = s[0:2]+s[-2:]
   else:
-    return start + end
+    s = '' 
+  return s
 
 
 # C. fix_start
@@ -57,15 +57,12 @@ def both_ends(s):
 # where all instances of stra have been replaced by strb.
 def fix_start(s):
   # +++your code here+++
-  i = 0
-  strresult = s[0]
-  for i in range(1,len(s)):
-    if s[i] == s[0]:
-      star = '*'
-    else:
-      star = s[i]
-    strresult = strresult + star     
-  return strresult
+  firstchar = s[:1]
+  restchar = s[1:]
+  if len(s)>1:
+    restchar = restchar.replace(firstchar, '*')
+    s = firstchar+restchar
+  return s
 
 
 # D. MixUp
@@ -77,8 +74,13 @@ def fix_start(s):
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
   # +++your code here+++
-  mixed = b[0:2] + a[2:len(a)] +' '+ a[0:2] + b[2:len(b)]
-  return mixed
+  a_start = a[:2]
+  b_start = b[:2]
+  a1 = a[2:]
+  b1 = b[2:]
+  if len(a)>=2 and len(b)>=2:
+     mix = b_start+a1+' '+a_start+b1
+  return mix
 
 
 # Provided simple test() function used in main() to print
