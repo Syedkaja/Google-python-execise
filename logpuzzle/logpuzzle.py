@@ -18,6 +18,13 @@ Here's what a puzzle url looks like:
 10.254.254.28 - - [06/Aug/2007:00:13:48 -0700] "GET /~foo/puzzle-bar-aaab.jpg HTTP/1.0" 302 528 "-" "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6"
 """
 
+def url_sort_key(url):
+  """Used to order the urls in increasing order by 2nd word if present."""
+  match = re.search(r'-(\w+)-(\w+)\.\w+', url)
+  if match:
+    return match.group(2)
+  else:
+    return url
 
 def read_urls(filename):
   """Returns a list of the puzzle urls from the given log file,
@@ -38,11 +45,12 @@ def read_urls(filename):
           path = match.group(1)
           if 'puzzle' in path:
               urllist.append("http://"+host+path) 
-              # url_list = list(dict.fromkeys(url_list))
+              
+  urllist = list(dict.fromkeys(urllist))
   
-  print(url_list)
+  url_new = sorted(urllist, key=url_sort_key)
 
-  # print(sorted(urllist))
+  return url_new
   
 
 def download_images(img_urls, dest_dir):
@@ -53,22 +61,24 @@ def download_images(img_urls, dest_dir):
   with an img tag to show each local image file.
   Creates the directory if necessary.
   """
+  # print(img_urls)
   if not os.path.exists(dest_dir):
-    os.mkdir(dest_dir)
+      os.makedirs(dest_dir)
 
-  f = open('index.html','w')
-  message = """<html>
-  <head></head>
-  <body><img src="" /></body>
-  </html>"""
-
-  f.write(message)
-  f.close()
+  index = file(os.path.join(dest_dir, 'index.html'), 'w')
+  index.write('<html><body>\n')
   # +++your code here+++
+  i = 0
   for url in img_urls:
-      print(url)
-      # urllib.urlretrieve(url, dest_dir)
-  
+      fname = 'img%d' % i + '.jpg'
+      urllib.urlretrieve(url, os.path.join(dest_dir, fname))
+      print("Retrieving image url: " + url)
+      index.write('<img src="'+fname+'"/>')
+      i += 1
+
+  index.write('\n</body></html>\n')
+  index.close()
+      
 
 def main():
   args = sys.argv[1:]
